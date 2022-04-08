@@ -1,10 +1,15 @@
 public class ApexAssignment {
-    public static Student__c[] getAllStudent(String className){
+    public static List<String> getAllStudent(Id classId){
         
-        Class__c[] classWithStudents = [SELECT (SELECT Name FROM Student_Class__r)
-                                     FROM Class__c WHERE name =: className];
+        Class__c classWithStudents = [SELECT (SELECT Name FROM Student_Class__r)
+                                     FROM Class__c WHERE Id =: classId];
         
-        return classWithStudents[0].Student_class__r;
+        Student__c[] studentList = classWithStudents.Student_class__r;
+        List<String> studentNameList = new List<String>();
+        for(Student__c std: studentList){
+            studentNameList.add(std.name);
+        }
+        return studentNameList;
     }
     
     public static Map<String,List<Id>> getClassStudentPair(){
