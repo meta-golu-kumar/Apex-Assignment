@@ -1,12 +1,11 @@
 public class ApexAssignment {
     public static List<String> getAllStudent(Id classId){
         
-        Class__c classWithStudents = [SELECT (SELECT Name FROM Student_Class__r)
-                                     FROM Class__c WHERE Id =: classId];
+        Student__c[] stds= [Select name from student__c where class__c =: classId];
         
-        Student__c[] studentList = classWithStudents.Student_class__r;
         List<String> studentNameList = new List<String>();
-        for(Student__c std: studentList){
+       
+        for(Student__c std: stds){
             studentNameList.add(std.name);
         }
         return studentNameList;
@@ -32,7 +31,8 @@ public class ApexAssignment {
     public static Integer calculateWorkingDays(Date startDate, Date endDate)  
     {    
         Integer workingDays = 0;  
-         
+        
+        // 10 - 20 = 10
         for(integer i=1; i < startDate.daysBetween(endDate); i++)  
         {  
             Date dt = startDate + i;  
