@@ -1,9 +1,13 @@
-@isTest(seeAllData = true)
+@isTest(seeAllData = false)
 public class testSendMailToOwner {
 	
-   @isTest static void testSendMailToOwnerMethod(){
+    @testSetup static void setup(){
+        Opportunity oppo = new Opportunity(Name='Test 1',closeDate=Date.newInstance(2022, 05, 07),stageName='Qualification');
+        insert oppo;
+    }
+   @isTest static void testSendMailToOwnerMethod_WithScheduler_ExpectedScheduledTrigger(){
         
-        String CRON_EXP = '0 0 12 14 4 ? 2022';
+        String CRON_EXP = '0 0 12 18 4 ? 2022';
                 
         Test.startTest();
        	String jobId = System.schedule('SendMail', CRON_EXP, new SendMailToOppOwner());
